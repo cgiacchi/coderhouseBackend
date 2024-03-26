@@ -34,30 +34,30 @@ class ProductManager {
 const manager = new ProductManager();
 
 manager.addProduct({
-    title: "Producto X",
-    description: "Descripción del producto X",
-    price: 15.99,
-    thumbnail: 'ruta/imagenX.jpg',
-    code: 'P003',
+    title: "Chocolate",
+    description: "helado con sabor a cacao",
+    price: 15,
+    thumbnail: "../images/chocolate.jpg",
+    code: 'P01',
     stock: 8
 });
 
 manager.addProduct({
-    title: "Producto Y",
-    description: "Descripción del producto Y",
-    price: 25.99,
-    thumbnail: 'ruta/imagenY.jpg',
-    code: 'P004',
-    stock: 12
+    title: "Dulce de leche",
+    description: "helado con sabor a dulce de leche",
+    price: 20,
+    thumbnail: "../images/dulcedeleche.jpg",
+    code: 'P02',
+    stock: 10
 });
 
 manager.addProduct({
-    title: "Producto Z",
-    description: "Descripción del producto Z",
-    price: 30.99,
-    thumbnail: 'ruta/imagenZ.jpg',
-    code: 'P005',
-    stock: 10
+    title: "Frutilla",
+    description: "helado con sabor a frutilla al agua",
+    price: 10,
+    thumbnail: "../images/frutilla.jpg",
+    code: 'P03',
+    stock: 20
 });
 
 console.log(manager.getProducts());
