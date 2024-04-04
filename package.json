@@ -8,7 +8,7 @@
   "main": "app.js",
   "devDependencies": {},
   "scripts": {
-    "start": "node --watch app.js"
+    "start": "node --watch /manejo_de_archivos/productManager.js"
   },
   "keywords": [],
   "author": "",
