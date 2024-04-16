@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 class ProductManager {
     constructor(path) {
         this.path = path;
-        this.products = [];
+        this.products = []; 
     }
 
     async addProduct(title, description, price, thumbnail, code, stock) {
