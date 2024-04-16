@@ -4,7 +4,7 @@ const ProductManager = require('./productManager');
 const app = express();
 const PORT = 8080;
 
-const productManager = new ProductManager('./productos.json');
+const productManager = new ProductManager('./products.json');
 
 app.get('/products', async (req, res) => {
     try {
