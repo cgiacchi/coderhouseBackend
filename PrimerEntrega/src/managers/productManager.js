@@ -1,17 +1,15 @@
-const fs = require('fs').promises();
+const fs = require('fs');
 const path = require('path')
 
 
 
 class ProductManager {
-
     constructor() {
         this.products = [];
-        this.path = path.join(__dirname, '../api/products.json');
+        this.path = path.join(__dirname, './api/products.json');
     }
 
     async addProduct(product) {
-
         const products = await this.getProducts();
         const productsLength = products.length;
         const { title, description, code, price, status, stock, category, thumbnail  } = product
@@ -25,7 +23,7 @@ class ProductManager {
             stock: stock,
             category: category,
             thumbnail: thumbnail
-            
+
         }
 
         const productRepeat = products.some(prod => prod.code === code);
@@ -104,4 +102,4 @@ class ProductManager {
     }
 }
 
-export default ProductManager
+module.exports = ProductManager;

@@ -4,7 +4,7 @@ const path= require('path')
 class CartManager {
     constructor() {
         this.carts = [];
-        this.path = path.join(__dirname, '../api/carts.json');
+        this.path = path.join(__dirname, './api/carts.json');
     }
 
     async createCart() {
@@ -66,4 +66,4 @@ class CartManager {
     }
 }
 
-export default CartManager
+module.exports = CartManager;
