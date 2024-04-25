@@ -1,48 +1,47 @@
-const fs= require('fs');
-const path= require('path')
+const fs = require("fs/promises");
 
 class CartManager {
-    constructor() {
-        this.carts = [];
-        this.path = path.join(__dirname, './api/carts.json');
-    }
+    constructor(filePath) {
+        this.path = filePath;
+    };
 
+//
     async createCart() {
-        const carts = await this.getCarts();
-        const cartsLength = carts.length;
-        const newCart = {
-            id: cartsLength > 0 ? carts[cartsLength - 1].id + 1 : 1,
-            products: []
-        }
-        carts.push(newCart)
         try {
-            await fs.promises.writeFile(this.path, JSON.stringify(carts, null, "\t"));
-        }
-        catch (error) {
-            return error
-        }
-    }
-
-    async addToCart(cartid,productid){
-
-        const carts = await this.getCarts();
-        let cartFound = carts.find((cart)=> cart.id === cartid);
-        if(!cartFound) return console.log('Carrito inexistente.')
-        const productExists = cartFound.products.find(prod => prod.id === productid)
-        if(productExists){
-            productExists.quantity++
-        }else{
-            const product = {
-                productId : productid,
-                quantity : 1
+            const carts = await this.getCarts();
+            const cartsLength = carts.length;
+            const newCart = {
+                id: cartsLength > 0 ? carts[cartsLength - 1].id + 1 : 1,
+                products: []
             }
-            cartFound.products.push(product)
+            carts.push(newCart); 
+            await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2));
+            }
+            catch (error) {
+                return error
+            }
         }
+    
+
+
+    async addToCart(cartId, productId) {
         try {
-            await fs.promises.writeFile(this.path, JSON.stringify(carts, null, "\t"));
-        }
-        catch (error) {
-            return error
+            const carts = await this.getCarts();
+            const cartFound = carts.find((cart) => cart.id === cartId);
+            if(!cartFound) return console.log('Carrito inexistente.')
+            const productExists = cartFound.products.find((product) => product.id === productId);
+            if(productExists){
+                productExists.quantity++
+            }else{
+                const product = {
+                    productId : productid,
+                    quantity : 1
+                }
+                cartFound.products.push(product);
+                await fs.writeFile(this.path, JSON.stringify(carts, null, 2));
+            }
+        } catch (error) {
+            console.log("Error al agregar productos al carrito", error);
         }
     }
 
@@ -55,15 +54,24 @@ class CartManager {
         }
     }
 
-    async getCartById(id) {
-        const carts = await this.getCarts();
-        const search = carts.find(cart => cart.id === id);
-        if(!search){
-            console.log("El carrito que buscas no existe")
-        }else{
-            return search
+
+
+    async getCartById(cartId) {
+        try {
+            const carts = await this.getCarts();
+            const cartFound = carts.find((cart) => cart.id === cartId);
+
+            if(cartFound) {
+                return cartFound.products;
+            } else {
+                console.log("Error, el carrito no existe");
+            }
+        } catch (error) {
+            console.log("Error al mostrar el carrito", error);
         }
+        
     }
+
 }
 
 module.exports = CartManager;

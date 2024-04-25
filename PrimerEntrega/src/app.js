@@ -1,14 +1,18 @@
-const express= require("express")
-const productsRouter= require('./routes/productsRouter.js')
-const cartsRouter= require('./routes/cartsRouter.js')
+const express = require('express');
+const productRoutes = require('./routes/productsRouter.js');
+const cartRoutes = require('./routes/cartsRouter.js');
+const app = express();
+const PORT = 8080;
 
-const app = express()
-const PORT = 8080
 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/products',productsRouter)
-app.use('/api/carts',cartsRouter)
+// Rutas
+app.use("/", productRoutes);
+app.use("/", cartRoutes);
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+});

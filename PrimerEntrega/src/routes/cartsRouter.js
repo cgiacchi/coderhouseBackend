@@ -1,37 +1,29 @@
+const express = require("express");
+const router = express.Router();
 const CartManager = require("../managers/cartManager.js");
-const Router = require("express").Router;
+const cartManager = new CartManager("./data/cart.json");
 
-const router = Router()
-const carts = new CartManager()
+router.post("/", async (req, res) => {
+    await cartManager.createCart();
+    res.send({message: "Se creó el carrito correctamente"});
+});
 
-router.get('/:cid', async (req,res) =>{
-    try{
-        const cartId= parseInt(req.params.cid)
-        const cart = await carts.getCartById(cartId)
-        res.send(cart)
-    }catch(err){
-        res.status(500).send({err:"Error al mostrar el carrito"})
-    }
-} )
+router.get("/:cid", async (req, res) => {
+    const cartId = parseInt(req.params.cid);
+    const cartContent = await cartManager.getCartContent(cartId);
 
-router.post('/', async (req,res) =>{
-    try{
-        const cart = await carts.createCart();
-        res.send(cart)
-    }catch(err){
-        res.status(500).send({err:"Error al guardar el carrito"})
-    }
-})
+    if (cartContent) {
+        res.send({products: cartContent});
+    } else {
+        res.send({message: "El carrito con el ID ingresado no existe"});
+    };
+});
 
-router.post('/:cid/product/:pid', async (req,res) =>{
-    try{
-        const productId = parseInt(req.params.pid);
-        const cartId = parseInt(req.params.cid);
-        const productToAdd = carts.addToCart(cartId,productId)
-        res.send(productToAdd)
-    }catch(err){
-        res.status(500).send({err:"No se pudo agregar el producto al carrito seleccionado."})
-    }
-})
+router.post("/:cid/products/:pid", async (req, res) => {
+    const cartId = parseInt(req.params.cid);
+    const productId = parseInt(req.params.pid);
+    await cartManager.addToCart(cartId, productId);
+    res.send({message: "Producto agregado al carrito con éxito"});
+});
 
 module.exports = router;
