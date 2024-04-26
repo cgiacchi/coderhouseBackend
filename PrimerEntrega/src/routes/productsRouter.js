@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
             return res.send({ productManager: productList });
         }
         const limitProducts = productList.slice(0, limit);
-        return res.send({ productManager: limitProducts });
+        return res.json({ productManager: limitProducts });
     } catch (err) {
         res.status(500).json({ error: 'Error al obtener productos' });
     }
@@ -21,7 +21,7 @@ router.get("/:pid", async (req, res) => {
     try {
         const productId = parseInt(req.params.pid);
         const product = await productManager.getProductById(productId);
-        res.send(product);
+        res.json(product);
     } catch (err) {
         res.status(500).send("Error al obtener el producto: " + err);
     }

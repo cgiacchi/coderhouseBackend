@@ -9,7 +9,7 @@ class ProductManager {
         try{
             const products = await this.getProducts();
             console.log(products); 
-            const id = products.length +1;
+            const id = products.length + 1;
             const { title, description, code, price, status, stock  } = product
             const newproduct = {
                 id: id,
@@ -52,7 +52,7 @@ class ProductManager {
 
     async getProductById(productId) {
         try {
-            const products = await this.readProducts();
+            const products = await this.getProducts();
             const filteredProduct = products.find((product) => product.id === productId);
             console.log(productId);
             if(filteredProduct) {
