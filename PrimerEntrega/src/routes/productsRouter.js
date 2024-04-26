@@ -1,17 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 const ProductManager = require("../managers/productManager.js");
-const productManager = new ProductManager("./data/products.json");
+const productManager = new ProductManager("./src/data/products.json");
 
 router.get("/", async (req, res) => {
     try {
         const limit = parseInt(req.query.limit);
         const productList = await productManager.getProducts();
-
         if (isNaN(limit)) {
             return res.send({ productManager: productList });
         }
-
         const limitProducts = productList.slice(0, limit);
         return res.send({ productManager: limitProducts });
     } catch (err) {
@@ -19,13 +17,14 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:pid", async (req, res) => {        try{
-    const productId = parseInt(req.params.pid);
-    const product = await productManager.getProductById(productId)
-    res.send(product)
-} catch(err){
-    res.status(500).send("Error al obtener el producto: " + err)
-}
+router.get("/:pid", async (req, res) => {
+    try {
+        const productId = parseInt(req.params.pid);
+        const product = await productManager.getProductById(productId);
+        res.send(product);
+    } catch (err) {
+        res.status(500).send("Error al obtener el producto: " + err);
+    }
 });
 
 router.post("/", async (req, res) => {

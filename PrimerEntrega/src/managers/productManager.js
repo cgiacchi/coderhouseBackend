@@ -1,4 +1,4 @@
-const fs = require("fs/promises");
+const fs = require('fs');
 
 class ProductManager {
     constructor(filePath) {
@@ -8,18 +8,17 @@ class ProductManager {
     async addProduct(product) {
         try{
             const products = await this.getProducts();
-            const productsLength = products.length;
-            const { title, description, code, price, status, stock, category, thumbnail  } = product
+            console.log(products); 
+            const id = products.length +1;
+            const { title, description, code, price, status, stock  } = product
             const newproduct = {
-                id: productsLength > 0 ? products[productsLength - 1].id + 1 : 1,
+                id: id,
                 title: title,
                 description: description,
                 code: code,
                 price: price,
                 status: status,
-                stock: stock,
-                category: category,
-                thumbnail: thumbnail
+                stock: stock
             }
             const productRepeat = products.some(prod => prod.code === code);
             const incompleteValues = Object.values(newproduct).includes(undefined);
@@ -40,12 +39,16 @@ class ProductManager {
 
     async getProducts() {
         try {
-            return await this.readProducts();
+            const productsData = await fs.promises.readFile(this.path, 'utf-8');
+            if (!productsData.trim()) {
+                return [];
+            }
+            return JSON.parse(productsData);
         } catch (error) {
-            console.error("Error al consultar productos", error);
+            console.error('Error al leer el archivo JSON de productos:', error);
             return [];
         }
-    };
+    }
 
     async getProductById(productId) {
         try {
@@ -71,27 +74,24 @@ class ProductManager {
                     products[key].price = prod.price ? prod.price : products[key].price;
                     products[key].status = prod.status ? prod.status : products[key].status;
                     products[key].stock = prod.stock ? prod.stock : products[key].stock;
-                    products[key].category = prod.category ? prod.category : products[key].category;
-                    products[key].thumbnail = prod.thumbnail ? [...products[key].thumbnail, prod.thumbnail] : products[key].thumbnail;
-                    
                 }
             }
             await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
-        } catch (error) {
+        } catch (error) {   
             console.error("Error al actualizar el producto.", error);
         }
     };
 
 
 
-    async getProducts() {
-        try {
-            const products = await fs.promises.readFile(this.path, 'utf-8');
-            return JSON.parse(products);
-        } catch (error) {
-            return this.products;
-        }
-    }
+    // async getProducts() {
+    //     try {
+    //         const products = await fs.promises.readFile(this.path, 'utf-8');
+    //         return JSON.parse(products);
+    //     } catch (error) {
+    //         return this.products;
+    //     }
+    // }
 
     async limitProducts(limit) {
         try {
@@ -123,7 +123,7 @@ async deleteProduct(productId) {
             console.log("Producto eliminado correctamente.");
         }
     } catch (error) {
-        console.error("Error al elimianr el producto.", error);
+        console.error("Error al eliminar el producto.", error);
     }
     };
 
