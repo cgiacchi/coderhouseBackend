@@ -1,0 +1,13 @@
+[
+    {
+        "id": "AA",
+        "title": "P1",
+        "description": "Esto es una prueba",
+        "price": 200,
+        "thumbnail": "./img/-",
+        "code": "AA11",
+        "stock": 5,
+        "status": "true",
+        "category": "prueba"
+    }
+]

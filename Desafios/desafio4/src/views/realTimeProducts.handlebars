@@ -1,0 +1,26 @@
+<div>
+  <h1>Real Time Products</h1>
+  <form onsubmit="return addProduct()">
+    <label for="">Marca</label>
+    <input type="text" name="title" id="title" placeholder="..." />
+    <label for="">Descripción</label>
+    <input type="text" name="description" id="description" placeholder="..." />
+    <label for="">Precio</label>
+    <input type="text" name="price" id="price" placeholder="...US$" />
+    <label for="">Thumbnail</label>
+    <input type="text" name="thumbnail" id="thumbnail" placeholder="..." />
+    <label for="">Codigo</label>
+    <input type="text" name="code" id="code" placeholder="..." />
+    <label for="">Stock</label>
+    <input type="text" name="stock" id="stock" placeholder="..." />
+    <label for="">Status</label>
+    <input type="text" name="status" id="status" placeholder="..." />
+    <label for="">Categoria</label>
+    <input type="text" name="category" id="category" placeholder="..." />
+    <input type="submit" />
+  </form>
+</div>
+<div class="caja" id="caja"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
